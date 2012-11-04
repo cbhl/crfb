@@ -1,20 +1,20 @@
 package main
 
 import (
+    "code.google.com/p/goweb/goweb"
     "fmt"
-    "net/http"
     "os"
 )
 
 func main() {
-    http.HandleFunc("/", hello)
-    fmt.Println("listening...")
-    err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    goweb.MapFunc("/", hello)
+
+    err := goweb.ListenAndServe(":" + os.Getenv("PORT"))
     if err != nil {
       panic(err)
     }
 }
 
-func hello(res http.ResponseWriter, req *http.Request) {
-    fmt.Fprintln(res, "hello, world")
+func hello(c *goweb.Context) {
+    fmt.Fprintf(c.ResponseWriter, "hello, world")
 }
